@@ -13,17 +13,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.wificon.utilities.NetworkUtils;
+import com.skydoves.colorpickerview.AlphaTileView;
+import com.skydoves.colorpickerview.ColorEnvelope;
+import com.skydoves.colorpickerview.ColorPickerView;
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
+import com.skydoves.colorpickerview.sliders.AlphaSlideBar;
+import com.skydoves.colorpickerview.sliders.BrightnessSlideBar;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int[] ARGB;
+    private ColorPickerView colorPickerView;
     private TextView mIpInstruction;
     private EditText mIpAddress;
-    private TextView mColorInstruction;
-    private EditText mRedValue;
-    private EditText mGreenValue;
-    private EditText mBlueValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +35,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mIpInstruction = (TextView)this.findViewById(R.id.tv_ip_instruction);
         mIpAddress = (EditText)this.findViewById(R.id.et_ip_address);
-        mColorInstruction = (TextView)this.findViewById(R.id.tv_color_instruction);
-        mRedValue = (EditText)this.findViewById(R.id.et_red_value);
-        mGreenValue = (EditText)this.findViewById(R.id.et_green_value);
-        mBlueValue = (EditText)this.findViewById(R.id.et_blue_value);
-        setLedColor();
+
+        colorPickerView = findViewById(R.id.colorPickerView);
+        colorPickerView.setColorListener(new ColorEnvelopeListener() {
+            @Override
+            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
+                setLayoutColor(envelope);
+            }
+        });
+        // attach brightnessSlideBar
+        final BrightnessSlideBar brightnessSlideBar = findViewById(R.id.brightnessSlide);
+        colorPickerView.attachBrightnessSlider(brightnessSlideBar);
+    }
+
+    /**
+     * set layout color & textView html code
+     *
+     * @param envelope ColorEnvelope by ColorEnvelopeListener
+     */
+    private void setLayoutColor(ColorEnvelope envelope) {
+        ARGB = colorPickerView.getColorARGB(envelope.getColor());
+        TextView textView = findViewById(R.id.textView);
+        textView.setText("R" + ARGB[1] + " " +
+                         "G" + ARGB[2] + " " +
+                         "B" + ARGB[3]);
+
+        AlphaTileView alphaTileView = findViewById(R.id.alphaTileView);
+        alphaTileView.setPaintColor(envelope.getColor());
     }
 
     private void setLedColor() {
         String [] params = {
                 mIpAddress.getText().toString(),
-                mRedValue.getText().toString(),
-                mGreenValue.getText().toString(),
-                mBlueValue.getText().toString()
+                Integer.toString(ARGB[1]),
+                Integer.toString(ARGB[2]),
+                Integer.toString(ARGB[3])
         };
         new setColorTask().execute(params);
     }
@@ -60,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String[] params = strings[0];
+
             try {
                 NetworkUtils.sendPostRequest(params);
                 return "OK";

@@ -21,32 +21,50 @@
         android:hint="IP address"
         android:textSize="22sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please Enter RGB Values"
-        android:textSize="25sp"
-        android:id="@+id/tv_color_instruction"/>
+    <com.skydoves.colorpickerview.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        app:palette="@drawable/palette"
+        app:selector="@drawable/wheel" />
 
-    <EditText
-        android:id="@+id/et_red_value"
+    <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+        android:id="@+id/brightnessSlide"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Red(0~255)"
-        android:textSize="22sp"/>
+        android:layout_margin="15dp"
+        app:selector_BrightnessSlider="@drawable/wheel"
+        app:borderColor_BrightnessSlider="@android:color/darker_gray"
+        app:borderSize_BrightnessSlider="5"/>
 
-    <EditText
-        android:id="@+id/et_green_value"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Green(0~255)"
-        android:textSize="22sp"/>
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_blue_value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Blue(0~255)"
-        android:textSize="22sp"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:color/white"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
+
+        <com.skydoves.colorpickerview.AlphaTileView
+            android:id="@+id/alphaTileView"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            app:tileSize="20"/>
+    </LinearLayout>
 
 </LinearLayout>
