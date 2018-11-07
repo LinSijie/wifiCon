@@ -120,24 +120,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.submit, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int itemSelectedId = item.getItemId();
-        if(itemSelectedId == R.id.action_submit){
-            setLedColor();
-            Context context =MainActivity.this;
-            String textToShow = "Submit clicked";
-            Toast.makeText(context,textToShow,Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }

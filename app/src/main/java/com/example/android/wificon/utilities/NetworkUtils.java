@@ -18,6 +18,16 @@ import static android.content.ContentValues.TAG;
 public final class NetworkUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    /**
+     * send POST request in form of "LedOn=%s&Red=%s&Green=%s&Blue=%s&"
+     *
+     * @param params String array of POST request information
+     *               params[0]: ip address
+     *               params[1]: if LED is on ("true" or "false")
+     *               params[2]: RGB value of red light, [0,255]
+     *               params[3]: RGB value of green light, [0,255]
+     *               params[4]: RGB value of blue light, [0,255]
+     */
     public static void sendPostRequest(String[] params) throws IOException {
 
         String charset = "UTF-8";
