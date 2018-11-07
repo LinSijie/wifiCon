@@ -23,6 +23,7 @@ import com.skydoves.colorpickerview.sliders.AlphaSlideBar;
 import com.skydoves.colorpickerview.sliders.BrightnessSlideBar;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,12 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mLedStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    isLedOn = true;
-                }else{
-                    isLedOn = false;
-                }
-                setLedColor();
+                isLedOn = isChecked == true ? true : false;
+                ledParamBuilder();
             }
         });
         colorPickerView = findViewById(R.id.colorPickerView);
@@ -57,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
                 setLayoutColor(envelope);
-                setLedColor();
             }
         });
         // attach brightnessSlideBar
@@ -71,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
      * @param envelope ColorEnvelope by ColorEnvelopeListener
      */
     private void setLayoutColor(ColorEnvelope envelope) {
-        ARGB = colorPickerView.getColorARGB(envelope.getColor());
+        int[] newARGB = colorPickerView.getColorARGB(envelope.getColor());
+        if(Arrays.equals(ARGB, newARGB) == true ){
+            return;
+        }
+        ARGB = newARGB;
         TextView showColorValue = findViewById(R.id.tv_color_value);
         showColorValue.setText("R" + ARGB[1] + " " +
                          "G" + ARGB[2] + " " +
@@ -79,13 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
         AlphaTileView alphaTileView = findViewById(R.id.alphaTileView);
         alphaTileView.setPaintColor(envelope.getColor());
+        ledParamBuilder();
     }
 
     /**
-     * set LED color
+     * set LED params
      *
      */
-    private void setLedColor() {
+    private void ledParamBuilder() {
         String [] params = {
                 mIpAddress.getText().toString(),
                 Boolean.toString(isLedOn),
