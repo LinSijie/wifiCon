@@ -21,18 +21,20 @@ public final class NetworkUtils {
     public static void sendPostRequest(String[] params) throws IOException {
 
         String charset = "UTF-8";
-        String ip_addr = params[0];
-        String red = params[1];
-        String green = params[2];
-        String blue = params[3];
+        String ip_address = params[0];
+        String isLedOn = params[1];
+        String red = params[2];
+        String green = params[3];
+        String blue = params[4];
 
-        String query = String.format("Red=%s&Green=%s&Blue=%s&",
+        String query = String.format("LedOn=%s&Red=%s&Green=%s&Blue=%s&",
+                URLEncoder.encode(isLedOn, charset),
                 URLEncoder.encode(red, charset),
                 URLEncoder.encode(green, charset),
                 URLEncoder.encode(blue, charset));
         Log.d(TAG, "query: " + query);
 
-        HttpURLConnection httpConnection =  (HttpURLConnection) new URL("http://" + ip_addr).openConnection();
+        HttpURLConnection httpConnection =  (HttpURLConnection) new URL("http://" + ip_address).openConnection();
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true); // Triggers POST.
         httpConnection.setDoInput(true);

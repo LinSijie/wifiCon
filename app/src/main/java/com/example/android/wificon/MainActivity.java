@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +27,11 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private int[] ARGB;
+    private boolean isLedOn;
     private ColorPickerView colorPickerView;
     private TextView mIpInstruction;
     private EditText mIpAddress;
+    private Switch mLedStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +40,24 @@ public class MainActivity extends AppCompatActivity {
         mIpInstruction = (TextView)this.findViewById(R.id.tv_ip_instruction);
         mIpAddress = (EditText)this.findViewById(R.id.et_ip_address);
 
+        mLedStatus = (Switch)this.findViewById(R.id.switch_light);
+        mLedStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    isLedOn = true;
+                }else{
+                    isLedOn = false;
+                }
+                setLedColor();
+            }
+        });
         colorPickerView = findViewById(R.id.colorPickerView);
         colorPickerView.setColorListener(new ColorEnvelopeListener() {
             @Override
             public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
                 setLayoutColor(envelope);
+                setLedColor();
             }
         });
         // attach brightnessSlideBar
@@ -55,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setLayoutColor(ColorEnvelope envelope) {
         ARGB = colorPickerView.getColorARGB(envelope.getColor());
-        TextView textView = findViewById(R.id.textView);
-        textView.setText("R" + ARGB[1] + " " +
+        TextView showColorValue = findViewById(R.id.tv_color_value);
+        showColorValue.setText("R" + ARGB[1] + " " +
                          "G" + ARGB[2] + " " +
                          "B" + ARGB[3]);
 
@@ -64,15 +81,21 @@ public class MainActivity extends AppCompatActivity {
         alphaTileView.setPaintColor(envelope.getColor());
     }
 
+    /**
+     * set LED color
+     *
+     */
     private void setLedColor() {
         String [] params = {
                 mIpAddress.getText().toString(),
+                Boolean.toString(isLedOn),
                 Integer.toString(ARGB[1]),
                 Integer.toString(ARGB[2]),
                 Integer.toString(ARGB[3])
         };
         new setColorTask().execute(params);
     }
+
 
     public class setColorTask extends AsyncTask<String[], Void, String> {
 
@@ -97,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.submit, menu);
@@ -115,4 +139,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 }

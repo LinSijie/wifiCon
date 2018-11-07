@@ -11,15 +11,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please Enter IP address"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:id="@+id/tv_ip_instruction"/>
 
-    <EditText
-        android:id="@+id/et_ip_address"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="IP address"
-        android:textSize="22sp"/>
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_ip_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:hint="IP address"
+            android:textSize="22sp"/>
+
+        <Switch
+            android:id="@+id/switch_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
 
     <com.skydoves.colorpickerview.ColorPickerView
         android:id="@+id/colorPickerView"
@@ -47,7 +64,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_color_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@android:color/white"
