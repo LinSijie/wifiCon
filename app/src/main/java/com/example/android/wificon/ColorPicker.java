@@ -1,45 +1,46 @@
 package com.example.android.wificon;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.wificon.utilities.NetworkUtils;
 import com.skydoves.colorpickerview.AlphaTileView;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
-import com.skydoves.colorpickerview.sliders.AlphaSlideBar;
 import com.skydoves.colorpickerview.sliders.BrightnessSlideBar;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class ColorPicker extends AppCompatActivity {
 
+    private static final String TAG = "ColorPicker";
     private int[] ARGB;
     private boolean isLedOn;
     private ColorPickerView colorPickerView;
-    private TextView mIpInstruction;
-    private EditText mIpAddress;
+    private TextView show_device_IP;
     private Switch mLedStatus;
+    String hostIP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mIpInstruction = (TextView)this.findViewById(R.id.tv_ip_instruction);
-        mIpAddress = (EditText)this.findViewById(R.id.et_ip_address);
+        setContentView(R.layout.activity_color_picker);
+        Intent mIntent = getIntent();
+        hostIP = mIntent.getStringExtra("hostIP");
+        Log.i(TAG, "onCreate: hostIP = " + hostIP);
+
+        show_device_IP = (TextView)this.findViewById(R.id.tv_ip_address);
+        show_device_IP.setText(hostIP);
 
         mLedStatus = (Switch)this.findViewById(R.id.switch_light);
         mLedStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void ledParamBuilder() {
         String [] params = {
-                mIpAddress.getText().toString(),
+                hostIP,
                 Boolean.toString(isLedOn),
                 Integer.toString(ARGB[1]),
                 Integer.toString(ARGB[2]),

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/esptouch/esptouch.iml" filepath="$PROJECT_DIR$/esptouch/esptouch.iml" />
       <module fileurl="file://$PROJECT_DIR$/wifiCon.iml" filepath="$PROJECT_DIR$/wifiCon.iml" />
     </modules>
   </component>

@@ -5,38 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:padding="16dp"
+    tools:context=".ColorPicker">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please Enter IP address"
-        android:textSize="20sp"
-        android:id="@+id/tv_ip_instruction"/>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_ip_address"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:hint="IP address"
-            android:textSize="22sp"/>
+            android:singleLine="true"
+            android:text="Device IP:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tv_ip_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:layout_gravity="right"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Light Switch"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <Switch
             android:id="@+id/switch_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
-
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"/>
     </RelativeLayout>
-
 
     <com.skydoves.colorpickerview.ColorPickerView
         android:id="@+id/colorPickerView"
@@ -81,6 +96,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
+            android:visibility="invisible"
             app:tileSize="20"/>
     </LinearLayout>
 
